@@ -11,5 +11,5 @@
 - [x] Basic proof of work.
 - [ ] Storing the transactions in the disk.
 - [ ] Some sort of cli to ease the mining process.
-- [ ] Advanved Transaction sand user's adresses.
+- [ ] Advanved Transactions and user's adresses.
 - [ ] Implement a true network.
