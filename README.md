@@ -1,4 +1,4 @@
-# La7lo7, the first true egyption cryptocurcy 😂
+# La7lo7, the first true egyption cryptocurrency 😂
 
 ## IMPORTANT CLARIFICATIONS
 
