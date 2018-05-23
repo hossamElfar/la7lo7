@@ -17,8 +17,8 @@ const targetBits = 24
 
 // ProofOfWork represents a proof-of-work
 type ProofOfWork struct {
-	Block  *Block
-	Target *big.Int
+	block  *Block
+	target *big.Int
 }
 
 // NewProofOfWork builds and returns a ProofOfWork
@@ -34,9 +34,9 @@ func NewProofOfWork(b *Block) *ProofOfWork {
 func (pow *ProofOfWork) prepareData(nonce int) []byte {
 	data := bytes.Join(
 		[][]byte{
-			pow.Block.PrevBlockHash,
-			pow.Block.Data,
-			utiles.IntToHex(pow.Block.Timestamp),
+			pow.block.PrevBlockHash,
+			pow.block.Data,
+			utiles.IntToHex(pow.block.Timestamp),
 			utiles.IntToHex(int64(targetBits)),
 			utiles.IntToHex(int64(nonce)),
 		},
@@ -52,7 +52,7 @@ func (pow *ProofOfWork) Run() (int, []byte) {
 	var hash [32]byte
 	nonce := 0
 
-	fmt.Printf("Mining the block containing \"%s\"\n", pow.Block.Data)
+	fmt.Printf("Mining the block containing \"%s\"\n", pow.block.Data)
 	for nonce < maxNonce {
 		data := pow.prepareData(nonce)
 
@@ -60,7 +60,7 @@ func (pow *ProofOfWork) Run() (int, []byte) {
 		fmt.Printf("\r%x", hash)
 		hashInt.SetBytes(hash[:])
 
-		if hashInt.Cmp(pow.Target) == -1 {
+		if hashInt.Cmp(pow.target) == -1 {
 			break
 		} else {
 			nonce++
@@ -75,11 +75,11 @@ func (pow *ProofOfWork) Run() (int, []byte) {
 func (pow *ProofOfWork) Validate() bool {
 	var hashInt big.Int
 
-	data := pow.prepareData(pow.Block.Nonce)
+	data := pow.prepareData(pow.block.Nonce)
 	hash := sha256.Sum256(data)
 	hashInt.SetBytes(hash[:])
 
-	isValid := hashInt.Cmp(pow.Target) == -1
+	isValid := hashInt.Cmp(pow.target) == -1
 
 	return isValid
 }
